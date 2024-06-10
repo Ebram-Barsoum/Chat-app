@@ -4,6 +4,7 @@ import Error from "../../ui/Error";
 import { Link } from "react-router-dom";
 import Button from "../../ui/Button";
 import useSignIn from "./useSignIn";
+import FormHeader from "../../ui/FormHeader";
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -25,13 +26,11 @@ export default function LoginForm() {
 
   return (
     <div className="p-4 bg-white text-gray-900 w-[90%] sm:w-[28rem] rounded-md shadow-sm">
-      <h1 className="text-center text-2xl font-semibold">
-        Login to your account
-      </h1>
+      <FormHeader>Login to your account</FormHeader>
 
       <form
         onSubmit={handleSubmit(handleSubmitForm)}
-        className="flex flex-col gap-2 text-lg"
+        className="flex flex-col gap-2 text-md md:text-lg"
       >
         <div className="flex flex-col gap-1">
           <label htmlFor="email">Email</label>
@@ -73,7 +72,7 @@ export default function LoginForm() {
           {errors.password && <Error>{errors.password.message}</Error>}
         </div>
 
-        <p className="text-sm">
+        <p className="text-[12px] sm:text-[14px]">
           Don&apos;t have an account?{" "}
           <Link to={"/signup"} className="text-blue-900">
             Register now

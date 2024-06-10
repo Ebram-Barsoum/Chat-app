@@ -9,6 +9,7 @@ import useSignup from "./useSignup";
 
 import Error from "../../ui/Error";
 import Button from "../../ui/Button";
+import FormHeader from "../../ui/FormHeader";
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -30,10 +31,11 @@ export default function SignupForm() {
 
   return (
     <div className="p-4 bg-white shadow-sm text-gray-900 w-[90%] sm:w-[28rem] rounded-md">
-      <h1 className="text-center text-2xl font-semibold">Create Account</h1>
+      <FormHeader>Create Account</FormHeader>
+
       <form
         onSubmit={handleSubmit(handleSubmitForm)}
-        className="flex flex-col gap-2 text-lg"
+        className="flex flex-col gap-2 text-md md:text-lg"
       >
         <div className="flex flex-col gap-1">
           <label htmlFor="userName">User name</label>
@@ -110,7 +112,7 @@ export default function SignupForm() {
           />
         </div>
 
-        <p className="text-sm">
+        <p className="text-[12px] sm:text-[14px]">
           Already have an account?{" "}
           <Link to={"/login"} className="text-blue-900">
             Login

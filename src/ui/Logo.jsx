@@ -3,7 +3,7 @@ export default function Logo() {
     <img
       src="/public/logo.png"
       alt="ME-Chat logo image"
-      className="w-[80%]  sm:h-[15rem] sm:w-[20rem] "
+      className="w-[70%]  sm:h-[15rem] sm:w-[20rem] "
     />
   );
 }
