@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  background-color: #001d3dda;
+  min-height: 100dvh;
+  margin: 0;
+  color:#fff;
+}
+
+::-webkit-scrollbar{
+  width: 3px;
+  background-color: #ccc;
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: #64748b;
+  border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 6px;
+}
+
+button:disabled, input:disabled{
+  cursor: not-allowed;
+}
+
+::placeholder{
+  font-size: .9rem;
+}
