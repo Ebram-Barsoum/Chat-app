@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
 
+import { supabaseUrl } from "../services/supabase";
+
 const d = '2024-06-04 22:12:08.670029+00';
 
 export function getLastUpdate(date) {
@@ -20,6 +22,13 @@ export function getLastUpdate(date) {
     }
 
     return new Date(date).toLocaleDateString();
+}
+
+export function createImageUrl(bucket, image) {
+    const imageName = `${Math.random()}-${image?.name}`;
+    const imageUrl = `${supabaseUrl}/storage/v1/object/public/${bucket}/${imageName}`;
+
+    return { imageName, imageUrl };
 }
 
 

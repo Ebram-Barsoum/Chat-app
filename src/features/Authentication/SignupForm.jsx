@@ -120,6 +120,7 @@ export default function SignupForm() {
         <Button
           className="text-white mt-2 bg-blue-800 hover:bg-blue-900 "
           isDisabled={isLoading}
+          type={"submit"}
         >
           Create
         </Button>

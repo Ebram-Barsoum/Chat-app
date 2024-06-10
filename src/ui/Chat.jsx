@@ -17,6 +17,7 @@ export default function Chat({ avatar, userName, lastMessage, lastUpdate }) {
           src={avatar || "/public/default-user.jpg"}
           alt={`${userName}'image`}
           className="object-cover w-[3rem] h-[3rem] rounded-full shadow-md"
+          loading="lazy"
         />
 
         <div className="flex flex-col">

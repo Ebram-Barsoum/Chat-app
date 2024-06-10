@@ -15,6 +15,7 @@ export default function Message({ img, text, isOwn, time }) {
             className={`w-[auto] sm:w-[50%] object-cover rounded-md ${
               isOwn && " ms-auto"
             }`}
+            loading="lazy"
           />
           <span className={`text-[11px] ${isOwn ? " ms-auto" : "me-auto "}`}>
             {new Date(time).toLocaleTimeString([], {

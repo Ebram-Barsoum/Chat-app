@@ -28,7 +28,7 @@ export async function getChats(userId) {
     const { data: chats, error } = await supabase
         .from("chats")
         .select(
-            "*, user1:clients!user1_id (id, email, userName, avatar), user2:clients!user2_id (id, email, userName, avatar)"
+            "*, user1:clients!user1_id (id, email, userName, bio, avatar), user2:clients!user2_id (id, email, userName, bio, avatar)"
         )
         .or(`user1_id.eq.${userId}, user2_id.eq.${userId}`)
         .order("lastUpdate", { ascending: true });

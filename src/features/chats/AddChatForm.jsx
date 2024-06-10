@@ -27,7 +27,10 @@ export default function AddChatForm({ onCancel }) {
 
   return (
     <div className="w-[100dvw] h-[100dvh] fixed top-0  backdrop-blur-sm flex justify-center items-center">
-      <form className="bg-gray-50 w-[90%] sm:w-[22rem] py-3 px-4 pt-5 rounded-md flex flex-col gap-3">
+      <form
+        onSubmit={handleFriendSearch}
+        className="bg-gray-50 w-[90%] sm:w-[22rem] py-3 px-4 pt-5 rounded-md flex flex-col gap-3"
+      >
         <input
           type="email"
           placeholder="Enter a Firend Email"
@@ -42,14 +45,14 @@ export default function AddChatForm({ onCancel }) {
           <Button
             className="bg-white text-gray-500 border-2 border-gray-200 hover:bg-gray-100 "
             clickHandler={onCancel}
-            disabled={isLoading}
+            isDisabled={isLoading}
           >
             Cancel
           </Button>
           <Button
             className="bg-blue-800 p-2  hover:bg-blue-900"
-            clickHandler={handleFriendSearch}
-            disabled={isLoading}
+            isDisabled={isLoading}
+            type={"submit"}
           >
             Add Friend
           </Button>

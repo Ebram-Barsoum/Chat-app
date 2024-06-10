@@ -30,3 +30,7 @@ button:disabled, input:disabled{
 ::placeholder{
   font-size: .9rem;
 }
+
+input:disabled, button:disabled{
+ opacity: .8;
+}

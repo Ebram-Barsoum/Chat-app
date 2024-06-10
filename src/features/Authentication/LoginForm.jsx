@@ -18,6 +18,7 @@ export default function LoginForm() {
   const { signIn, isLoading } = useSignIn();
 
   const handleSubmitForm = (data) => {
+    console.log(data);
     signIn(data);
     reset();
   };
@@ -82,6 +83,7 @@ export default function LoginForm() {
         <Button
           className="text-white mt-2 bg-blue-800 hover:bg-blue-900 "
           isDisabled={isLoading}
+          type={"submit"}
         >
           Login
         </Button>

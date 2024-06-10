@@ -43,7 +43,7 @@ export default function ChatList() {
       <div className="flex flex-col overflow-y-auto py-3">
         {isLoading && <SmallLoader />}
 
-        {chats.length === 0 && (
+        {chats?.length === 0 && (
           <p className="p-2 text-center">
             You don&apos;t have friend yet..! 🤷‍♂️
           </p>
@@ -53,7 +53,7 @@ export default function ChatList() {
           <p className="p-2 text-center">No Result Found ..! 🤷‍♂️</p>
         )}
 
-        {displayedChats.map((chat) => {
+        {displayedChats?.map((chat) => {
           const friend = chat.user1.id === user.id ? chat.user2 : chat.user1;
           return (
             <NavLink key={friend.id} to={`/chat/${chat.id}`}>

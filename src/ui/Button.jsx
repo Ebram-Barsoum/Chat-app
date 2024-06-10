@@ -4,6 +4,7 @@ export default function Button({
   clickHandler,
   isDisabled,
   className,
+  type
 }) {
   return (
     <button
@@ -12,6 +13,7 @@ export default function Button({
      focus:ring-offset-1 focus:ring-blue-700 transition ${className}`}
       onClick={clickHandler}
       disabled={isDisabled}
+      type={type || "button"}
     >
       {children}
     </button>

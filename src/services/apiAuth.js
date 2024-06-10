@@ -81,15 +81,17 @@ export async function signOut() {
 export async function getCurrentUser() {
     const { data: session } = await supabase.auth.getSession();
 
-    if (!session.session) return;
+    if (!session.session) return null;
 
     const { data, error } = await supabase.auth.getUser();
 
+    console.log(data);
     if (error) {
+        console.log(error.message);
         throw Error(error);
     }
 
-    return data;
+    return data || null;
 }
 
 /*
