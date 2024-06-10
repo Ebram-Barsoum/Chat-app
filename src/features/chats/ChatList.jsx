@@ -49,7 +49,7 @@ export default function ChatList() {
           </p>
         )}
 
-        {displayedChats.length === 0 && (
+        {displayedChats?.length === 0 && (
           <p className="p-2 text-center">No Result Found ..! 🤷‍♂️</p>
         )}
 
