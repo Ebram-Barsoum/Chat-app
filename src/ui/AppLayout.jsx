@@ -5,7 +5,7 @@ export default function AppLayout() {
     <div className="flex">
       <Sidebar />
       <div className="w-[100%] hidden md:flex justify-center items-center">
-        <p className="text-lg flex px-3 text-center">
+        <p className="text-lg flex px-3 text-center bg-[##eaeef5]">
           Select Chat and start a conversation right now ..! 👋
         </p>
       </div>

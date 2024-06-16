@@ -3,14 +3,14 @@ import { useParams } from "react-router-dom";
 import ChatDetails from "./ChatDetails";
 import ChatFooter from "./ChatFooter";
 import ChatHeader from "./ChatHeader";
-import useChats from "../features/chats/useChats";
+import useGetChats from "../features/chats/useGetChats";
 import { useUserInfo } from "../contexts/userContext";
 import SmallLoader from "./SmallLoader";
 
 export default function ActiveChat() {
   const { id } = useParams();
-  const { chats, isLoading } = useChats();
   const { user } = useUserInfo();
+  const { chats, isLoading } = useGetChats(user.id);
 
   if (isLoading) return <SmallLoader />;
 
@@ -22,7 +22,7 @@ export default function ActiveChat() {
     <div className="w-[100%] grid grid-rows-[auto_1fr_auto] h-[100dvh] max-h-[100dvh]">
       <ChatHeader friend={friend} />
       <ChatDetails chatId={id} userId={user.id} />
-      <ChatFooter chatId={id} userId={user.id}/>
+      <ChatFooter chatId={id} userId={user.id} />
     </div>
   );
 }

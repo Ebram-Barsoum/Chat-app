@@ -96,7 +96,7 @@ export default function UserInfoForm({ onCancel }) {
               {...register("name")}
               disabled={isLoading}
             />
-            <input
+            <textarea
               type="text"
               placeholder="Your Bio"
               defaultValue={bio || ""}

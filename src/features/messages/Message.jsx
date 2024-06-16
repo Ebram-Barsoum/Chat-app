@@ -1,22 +1,40 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-export default function Message({ img, text, isOwn, time }) {
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
+
+import { memo, useState } from "react";
+import FixedLayout from "../../ui/FixedLayout";
+import useOutsideClick from "../../hooks/useOutsideClick";
+import { HiOutlineCloudDownload } from "react-icons/hi";
+import DownloadButton from "../../ui/DownloadButton";
+const Message = memo(function ({ img, text, isOwn, time }) {
+  const [zoomedImage, setZoomedimage] = useState("");
+  const ref = useOutsideClick(close);
+
+  function close() {
+    setZoomedimage("");
+  }
+
   return (
     <>
       {img && (
         <div
-          className={`p-1 max-w-[70%] rounded-md flex flex-col ${
-            isOwn ? " ms-auto" : "me-auto "
+          className={`p-1 w-[70%] rounded-md flex flex-col ${
+            isOwn ? "ms-auto" : "me-auto "
           }`}
         >
-          <img
-            src={img}
-            alt="chat image"
-            className={`w-[auto] sm:w-[50%] object-cover rounded-md ${
-              isOwn && " ms-auto"
-            }`}
-            loading="lazy"
-          />
+          <div className={`flex gap-1 w-[100%] ${isOwn && "justify-end"}`}>
+            {isOwn && <DownloadButton path={img} />}
+            <img
+              src={img}
+              alt="chat image"
+              className={`cursor-pointer object-cover rounded-md max-w-[80%] sm:max-w-[50%]`}
+              loading="lazy"
+              onClick={() => setZoomedimage(img)}
+            />
+            {!isOwn && <DownloadButton path={img} />}
+          </div>
+
           <span className={`text-[11px] ${isOwn ? " ms-auto" : "me-auto "}`}>
             {new Date(time).toLocaleTimeString([], {
               hour: "2-digit",
@@ -41,6 +59,19 @@ export default function Message({ img, text, isOwn, time }) {
           </span>
         </p>
       )}
+
+      {zoomedImage !== "" && (
+        <FixedLayout>
+          <img
+            src={zoomedImage}
+            data-aos="zoom-in-down"
+            ref={ref}
+            className="max-w-[90%] sm:max-w-[40%]"
+          />
+        </FixedLayout>
+      )}
     </>
   );
-}
+});
+
+export default Message;

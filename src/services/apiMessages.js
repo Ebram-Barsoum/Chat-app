@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { updateChat } from "./apiChat";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function sendMessage(message) {
@@ -45,6 +44,35 @@ export async function getMessages(chatId) {
 
     if (error) {
         throw new Error(error);
+    }
+
+    return data;
+}
+
+export async function getUnseenMessages(chatId) {
+    const { data, error } = await supabase
+        .from("messages")
+        .select('*')
+        .eq("chat_id", chatId)
+        .eq("isRead", false);
+
+    if (error) {
+        console.log(error);
+        throw Error(error);
+    }
+
+    return data;
+}
+
+export async function readMessages({ chatId, userId }) {
+    const { data, error } = await supabase
+        .from("messages")
+        .update({ "isRead": true })
+        .eq("isRead", false)
+        .eq("chat_id", chatId).neq('sender_id', userId);
+
+    if (error) {
+        throw Error(error);
     }
 
     return data;

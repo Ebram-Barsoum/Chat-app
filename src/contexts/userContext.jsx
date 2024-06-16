@@ -3,11 +3,15 @@
 
 import { createContext, useContext } from "react";
 import useUser from "../features/users/useUser";
+import FullSpinner from "../ui/FullSpinner";
 
 const UserContext = createContext(null);
 
 export default function UserProvider({ children }) {
-  const { user } = useUser();
+  const { user, isLoading } = useUser();
+
+  if (isLoading) return <FullSpinner />;
+
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 }
 

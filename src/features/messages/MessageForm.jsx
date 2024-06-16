@@ -1,4 +1,6 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import EmojiPicker from "emoji-picker-react";
 import { FaImage } from "react-icons/fa";
@@ -13,17 +15,17 @@ import { useUserInfo } from "../../contexts/userContext";
 
 import ButtonIcon from "../../ui/ButtonIcon";
 import Button from "../../ui/Button";
+import useUnseenMessages from "./useUnseenMessages.js";
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function MessageForm() {
+export default function MessageForm({ chatId }) {
   const [openEmojis, setOpenEmojis] = useState(false);
-
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
 
   const ref = useOutsideClick(() => setOpenEmojis(false));
-
-  const { user } = useUserInfo();
   const { id } = useParams();
+  const { user } = useUserInfo();
 
   const { sendMessage, isLoading } = useSendMessage();
   const { updateChat } = useUpdateChat();
@@ -51,12 +53,15 @@ export default function MessageForm() {
 
     sendMessage(message, {
       onSuccess: (data) => {
-        let lastMessage = {
-          content: data.content || data.image,
-          date: data.created_at,
+        let fields = {
+          lastMessage: data.content || data.image,
+          lastUpdate: data.created_at,
         };
 
-        updateChat({ chatId: data.chat_id, lastMessage });
+        updateChat({
+          chatId: data.chat_id,
+          fields,
+        });
       },
     });
 
@@ -103,7 +108,7 @@ export default function MessageForm() {
         />
       </div>
 
-      <Button isDisabled={!(text || image?.name)}>
+      <Button isDisabled={!(text || image?.name)} name="sending message button">
         <VscSend />
       </Button>
     </form>

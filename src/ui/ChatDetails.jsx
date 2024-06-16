@@ -2,43 +2,56 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { IoChevronDownOutline } from "react-icons/io5";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 import useGetMessages from "../features/messages/useGetMessages";
+import useReadMessages from "../features/messages/useReadMessages";
+import useUnseenMessages from "../features/messages/useUnseenMessages";
+import useUpdateChat from "../features/chats/useUpdateChat";
+
+import { getLastUpdate } from "../utils/helper";
 
 import Message from "../features/messages/Message";
 import SmallLoader from "../ui/SmallLoader";
+import DateBadge from "./DateBadge";
 
 export default function ChatDetails({ chatId, userId }) {
   const { messages, isLoading } = useGetMessages(chatId);
+  const { readMessages } = useReadMessages();
+  const { unReadMessages, isLoading: unReadLoading } =
+    useUnseenMessages(chatId);
+  const { updateChat } = useUpdateChat();
+
   const [showScrollButton, setShowScrollButton] = useState(false);
 
-  const ref = useRef(null);
+  const spanRef = useRef(null);
+  const chatRef = useRef(null);
 
   const scrollToBottom = () => {
-    if (ref.current) {
-      ref.current.scrollTo({
-        top: ref.current.scrollHeight,
-      });
+    if (spanRef.current) {
+      spanRef.current.scrollIntoView();
     }
   };
 
   const scrollUpHandler = () => {
-    if (ref.current) {
-      const { scrollTop, scrollHeight, clientHeight } = ref.current;
+    if (chatRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = chatRef.current;
 
       setShowScrollButton(scrollTop + clientHeight < scrollHeight - 200);
     }
   };
 
   useEffect(() => {
-    scrollToBottom();
-  }, [ref]);
+    Aos.init({
+      duration: 500,
+      once: true,
+    });
 
-  useEffect(() => {
     let chat;
 
-    if (ref.current) {
-      chat = ref.current;
+    if (chatRef.current) {
+      chat = chatRef.current;
 
       chat.addEventListener("scroll", scrollUpHandler);
 
@@ -46,24 +59,55 @@ export default function ChatDetails({ chatId, userId }) {
         chat.removeEventListener("scroll", scrollUpHandler);
       };
     }
-  }, [ref]);
+  }, []);
+
+  useEffect(() => {
+    readMessages({ chatId, userId });
+    const fields = { unSeens: JSON.stringify(unReadMessages) };
+    updateChat({ chatId, fields });
+    scrollToBottom();
+  }, [unReadMessages]);
+
+  useEffect(() => {
+    if (messages?.length) scrollToBottom();
+  }, [messages]);
 
   if (isLoading) return <SmallLoader />;
 
-  if (messages.length === 0)
+  if (messages?.length === 0)
     return <p className="p-2 text-center">No messages yet..!</p>;
 
   return (
-    <div className="flex flex-col gap-3 p-3 overflow-auto " ref={ref}>
-      {messages.map((message) => (
-        <Message
-          key={message.id}
-          text={message.content}
-          img={message.image}
-          isOwn={message.sender_id === userId}
-          time={message.created_at}
-        />
-      ))}
+    <div className="flex flex-col gap-3 p-3 overflow-auto " ref={chatRef}>
+      {messages?.map((message, index) => {
+        const currentDate = new Date(message?.created_at).getDate();
+        const prevDate =
+          index > 0
+            ? new Date(messages[index - 1]?.created_at.toString()).getDate()
+            : null;
+
+        const showDate = currentDate !== prevDate;
+
+        return (
+          <>
+            {showDate && (
+              <DateBadge key={Math.random()}>
+                {new Date(message.created_at).getDate() === new Date().getDate()
+                  ? "today"
+                  : getLastUpdate(message.created_at)}
+              </DateBadge>
+            )}
+
+            <Message
+              key={message.id}
+              text={message.content}
+              img={message.image}
+              isOwn={message.sender_id === userId}
+              time={message.created_at}
+            />
+          </>
+        );
+      })}
 
       {showScrollButton && (
         <button
@@ -75,6 +119,8 @@ export default function ChatDetails({ chatId, userId }) {
           <IoChevronDownOutline />
         </button>
       )}
+
+      <span ref={spanRef}></span>
     </div>
   );
 }

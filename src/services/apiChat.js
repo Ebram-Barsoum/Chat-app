@@ -41,10 +41,12 @@ export async function getChats(userId) {
     return chats;
 }
 
-export async function updateChat({ chatId, lastMessage }) {
+export async function updateChat({ chatId, fields }) {
     const { data, error } = await supabase
         .from("chats")
-        .update({ 'lastMessage': lastMessage.content, 'lastUpdate': lastMessage.date }).eq('id', chatId);
+        .update({ ...fields })
+        .eq("id", chatId)
+        .select('*');
 
     if (error) {
         throw new Error(error);

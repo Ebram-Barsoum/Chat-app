@@ -4,7 +4,8 @@ export default function Button({
   clickHandler,
   isDisabled,
   className,
-  type
+  type,
+  name
 }) {
   return (
     <button
@@ -14,6 +15,7 @@ export default function Button({
       onClick={clickHandler}
       disabled={isDisabled}
       type={type || "button"}
+      name={name||'button'}
     >
       {children}
     </button>

@@ -1,15 +1,14 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 
-import useChats from "./useChats";
 import { useUserInfo } from "../../contexts/userContext";
+import { useChats } from "../../contexts/chatsContext";
+
 import { getLastUpdate } from "../../utils/helper";
 
 import Chat from "../../ui/Chat";
-import SmallLoader from "../../ui/SmallLoader";
 import Search from "../../ui/Search";
 import Button from "../../ui/Button";
 import AddChatForm from "./AddChatForm";
@@ -19,7 +18,7 @@ export default function ChatList() {
   const [search, setSearch] = useState("");
 
   const { user } = useUserInfo();
-  const { chats, isLoading } = useChats(user.id);
+  const chats = useChats();
 
   const displayedChats = search
     ? chats.filter((chat) => {
@@ -31,7 +30,7 @@ export default function ChatList() {
     : chats;
 
   return (
-    <div className="grid grid-rows-[auto_1fr]  py-3">
+    <div className="grid grid-rows-[auto_1fr] gap-3  py-3">
       <div className="flex px-2 gap-2">
         <Search search={search} setSearch={setSearch} />
 
@@ -40,16 +39,14 @@ export default function ChatList() {
         </Button>
       </div>
 
-      <div className="flex flex-col overflow-y-auto py-3">
-        {isLoading && <SmallLoader />}
-
+      <div className="flex flex-col overflow-auto py-3 max-h-[80dvh]">
         {chats?.length === 0 && (
           <p className="p-2 text-center">
             You don&apos;t have friend yet..! 🤷‍♂️
           </p>
         )}
 
-        {displayedChats?.length === 0 && (
+        {chats?.length !== 0 && displayedChats?.length === 0 && (
           <p className="p-2 text-center">No Result Found ..! 🤷‍♂️</p>
         )}
 
@@ -62,6 +59,7 @@ export default function ChatList() {
                 avatar={friend.avatar}
                 lastUpdate={getLastUpdate(chat.lastUpdate)}
                 lastMessage={chat.lastMessage}
+                unSeens={JSON.parse(chat.unSeens)}
               />
             </NavLink>
           );
