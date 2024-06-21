@@ -22,7 +22,8 @@ export default function ChatList() {
 
   const displayedChats = search
     ? chats.filter((chat) => {
-        const friend = chat.user1.id === user?.id ? chat.user2 : chat.user1;
+        const friend =
+          chat.user1.id === user?.user?.id ? chat.user2 : chat.user1;
         if (friend.userName.toLowerCase().includes(search.toLowerCase())) {
           return chat;
         }
