@@ -10,9 +10,9 @@ export default function useSignIn() {
     const { mutate, status } = useMutation({
         mutationFn: (data) => signIn(data),
         onSuccess: ({ user }) => {
-            queryClient.setQueryData(['user'], user);
             navigate('/');
             toast.success('Logged in successfully ..!')
+            queryClient.setQueryData(['user'], user);
         },
         onError: (error) => {
             toast.error(error.message);

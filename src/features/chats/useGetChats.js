@@ -10,31 +10,32 @@ export default function useGetChats(userId) {
     const { data: chats, isLoading } = useQuery({
         queryKey: ["chats"],
         queryFn: () => getChats(userId),
+
     });
 
-    useEffect(() => {
-        const subscription = supabase
-            .channel("public:chats")
-            .on(
-                "postgres_changes",
-                {
-                    event: "*",
-                    schema: "public",
-                    table: "chats",
-                },
-                (payload) => {
-                    queryClient.setQueriesData(["chats"], (oldChats) => [
-                        ...(oldChats || []),
-                        payload.new,
-                    ]);
-                }
-            )
-            .subscribe();
+    // useEffect(() => {
+    //     const subscription = supabase
+    //         .channel("public:chats")
+    //         .on(
+    //             "postgres_changes",
+    //             {
+    //                 event: "*",
+    //                 schema: "public",
+    //                 table: "chats",
+    //             },
+    //             (payload) => {
+    //                 queryClient.setQueriesData(["chats"], (oldChats) => [
+    //                     ...(oldChats || []),
+    //                     payload.new,
+    //                 ]);
+    //             }
+    //         )
+    //         .subscribe();
 
-        return () => {
-            supabase.removeChannel(subscription);
-        };
-    }, [queryClient]);
+    //     return () => {
+    //         supabase.removeChannel(subscription);
+    //     };
+    // }, [queryClient]);
 
     return { chats, isLoading };
 }

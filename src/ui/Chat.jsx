@@ -13,7 +13,8 @@ const Chat = memo(function Chat({
   unSeens,
 }) {
   const { user } = useUserInfo();
-  const notify = unSeens?.length > 0 && unSeens[0]?.sender_id !== user.id;
+  const notify =
+    unSeens?.length > 0 && unSeens[0]?.sender_id !== user?.user?.id;
 
   return (
     <div

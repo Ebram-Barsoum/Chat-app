@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { FaRegEdit } from "react-icons/fa";
-import User from "../features/users/User";
 import { LuLogOut } from "react-icons/lu";
 
 import useSignOut from "../features/Authentication/useSignOut";
 import useUser from "../features/users/useUser";
 
+import User from "../features/users/User";
 import Row from "./Row";
 import ButtonIcon from "./ButtonIcon";
 import ChatList from "../features/chats/ChatList";

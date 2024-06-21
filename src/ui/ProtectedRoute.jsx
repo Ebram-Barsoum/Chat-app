@@ -1,18 +1,22 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUserInfo } from "../contexts/userContext";
+
 import FullSpinner from "./FullSpinner";
-import useUser from "../features/users/useUser";
+import { useEffect } from "react";
 
 export default function ProtectedRoute({ children }) {
-  const { user, isLoading } = useUser();
+  const { user, isLoading } = useUserInfo();
   const navigate = useNavigate();
 
-  if (isLoading) return <FullSpinner />;
-  if (user?.user?.role !== "authenticated") {
-    navigate("/login");
-    return;
-  }
+  useEffect(() => {
+    if (user?.user?.role !== "authenticated") {
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
-  if (user?.user?.role === "authenticated") return children;
+  if (isLoading) return <FullSpinner />;
+
+  return children;
 }

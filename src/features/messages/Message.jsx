@@ -1,13 +1,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-
 import { memo, useState } from "react";
-import FixedLayout from "../../ui/FixedLayout";
+
 import useOutsideClick from "../../hooks/useOutsideClick";
-import { HiOutlineCloudDownload } from "react-icons/hi";
+
+import FixedLayout from "../../ui/FixedLayout";
 import DownloadButton from "../../ui/DownloadButton";
-const Message = memo(function ({ img, text, isOwn, time }) {
+
+const Message = memo(function Message({ img, text, isOwn, time }) {
   const [zoomedImage, setZoomedimage] = useState("");
   const ref = useOutsideClick(close);
 

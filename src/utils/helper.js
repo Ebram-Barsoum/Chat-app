@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
-
 import { supabaseUrl } from "../services/supabase";
 
-const d = '2024-06-04 22:12:08.670029+00';
-
-export function getLastUpdate(date) {
+export function formatDate(date) {
     const months = new Date().getMonth() - new Date(date).getMonth();
 
     if (months) return new Date(date).toLocaleDateString();

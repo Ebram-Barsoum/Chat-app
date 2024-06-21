@@ -30,31 +30,31 @@ function App() {
       {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <BrowserRouter>
         <UserProvider>
-          <ChatsProvider>
-            <Routes>
-              <Route
-                path="/"
-                element={
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ChatsProvider>
                   <ProtectedRoute>
                     <Home />
                   </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/chat/:id"
-                element={
+                </ChatsProvider>
+              }
+            />
+            <Route
+              path="/chat/:id"
+              element={
+                <ChatsProvider>
                   <ProtectedRoute>
                     <Conversation />
                   </ProtectedRoute>
-                }
-              />
-
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </ChatsProvider>
+                </ChatsProvider>
+              }
+            />
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
         </UserProvider>
 
         <Toaster position="top-center" reverseOrder={false} />

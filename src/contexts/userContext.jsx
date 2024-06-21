@@ -12,11 +12,16 @@ export default function UserProvider({ children }) {
 
   if (isLoading) return <FullSpinner />;
 
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, isLoading }}>
+      {children}
+    </UserContext.Provider>
+  );
 }
 
 export function useUserInfo() {
   const context = useContext(UserContext);
+
   if (!context) throw new Error("UserContext used outside of the scope");
 
   return context;

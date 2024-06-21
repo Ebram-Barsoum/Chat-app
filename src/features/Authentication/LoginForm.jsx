@@ -1,10 +1,15 @@
 /* eslint-disable no-useless-escape */
 import { useForm } from "react-hook-form";
-import Error from "../../ui/Error";
-import { Link } from "react-router-dom";
-import Button from "../../ui/Button";
+import { Link, useNavigate } from "react-router-dom";
+
 import useSignIn from "./useSignIn";
+
+import Error from "../../ui/Error";
+import Button from "../../ui/Button";
 import FormHeader from "../../ui/FormHeader";
+import { useUserInfo } from "../../contexts/userContext";
+import { useEffect } from "react";
+import FullSpinner from "../../ui/FullSpinner";
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -15,14 +20,21 @@ export default function LoginForm() {
     formState: { errors },
     reset,
   } = useForm();
-
   const { signIn, isLoading } = useSignIn();
-
+  const { user, isLoading: userLoading } = useUserInfo();
+  const navigate = useNavigate();
   const handleSubmitForm = (data) => {
-    console.log(data);
     signIn(data);
     reset();
   };
+
+  useEffect(() => {
+    if (user?.user?.role === "authenticated") {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  if (userLoading) return <FullSpinner />;
 
   return (
     <div className="p-4 bg-white text-gray-900 w-[90%] sm:w-[28rem] rounded-md shadow-sm">

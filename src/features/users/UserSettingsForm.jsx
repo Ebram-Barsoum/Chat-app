@@ -15,7 +15,7 @@ import FixedLayout from "../../ui/FixedLayout";
 export default function UserInfoForm({ onCancel }) {
   const { handleSubmit, register } = useForm();
   const { user } = useUserInfo();
-  const { avatar, email, name, bio } = user.user_metadata;
+  const { avatar, email, name, bio } = user.user.user_metadata;
   const [newAvatar, setNewAvatar] = useState(null);
 
   const { updateUser, isLoading } = useUpdateUser();

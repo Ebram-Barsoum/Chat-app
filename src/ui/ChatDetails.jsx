@@ -10,7 +10,7 @@ import useReadMessages from "../features/messages/useReadMessages";
 import useUnseenMessages from "../features/messages/useUnseenMessages";
 import useUpdateChat from "../features/chats/useUpdateChat";
 
-import { getLastUpdate } from "../utils/helper";
+import { formatDate } from "../utils/helper";
 
 import Message from "../features/messages/Message";
 import SmallLoader from "../ui/SmallLoader";
@@ -65,8 +65,7 @@ export default function ChatDetails({ chatId, userId }) {
     readMessages({ chatId, userId });
     const fields = { unSeens: JSON.stringify(unReadMessages) };
     updateChat({ chatId, fields });
-    scrollToBottom();
-  }, [unReadMessages]);
+  }, [unReadMessages, messages]);
 
   useEffect(() => {
     if (messages?.length) scrollToBottom();
@@ -83,7 +82,7 @@ export default function ChatDetails({ chatId, userId }) {
         const currentDate = new Date(message?.created_at).getDate();
         const prevDate =
           index > 0
-            ? new Date(messages[index - 1]?.created_at.toString()).getDate()
+            ? new Date(messages[index - 1]?.created_at?.toString()).getDate()
             : null;
 
         const showDate = currentDate !== prevDate;
@@ -94,7 +93,7 @@ export default function ChatDetails({ chatId, userId }) {
               <DateBadge key={Math.random()}>
                 {new Date(message.created_at).getDate() === new Date().getDate()
                   ? "today"
-                  : getLastUpdate(message.created_at)}
+                  : formatDate(message.created_at)}
               </DateBadge>
             )}
 

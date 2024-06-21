@@ -37,7 +37,11 @@ export default function DownloadButton({ path }) {
   }, [download, path]);
 
   return (
-    <button className="text-md" onClick={() => setDownload(true)}>
+    <button
+      className="text-md"
+      onClick={() => setDownload(true)}
+      title="Click to download"
+    >
       <HiOutlineCloudDownload />
     </button>
   );

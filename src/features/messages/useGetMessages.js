@@ -13,21 +13,21 @@ export default function useGetMessages(chatId) {
         queryFn: () => getMessages(chatId)
     });
 
-    useEffect(() => {
-        const channel = supabase.channel('public:messages').on('postgres_changes', {
-            event: '*',
-            schema: 'public',
-            table: 'messages',
-            filter: `chat_id=eq.${chatId}`
-        }, (payload) => {
-            //  console.log(payload);
-            queryClient.setQueryData(['messages', chatId], (oldMessages) => [...(oldMessages || []), payload.new]);
-        }).subscribe();
+    // useEffect(() => {
+    //     const channel = supabase.channel('public:messages').on('postgres_changes', {
+    //         event: '*',
+    //         schema: 'public',
+    //         table: 'messages',
+    //         filter: `chat_id=eq.${chatId}`
+    //     }, (payload) => {
+    //         //  console.log(payload);
+    //         queryClient.setQueryData(['messages', chatId], (oldMessages) => [...(oldMessages || []), payload.new]);
+    //     }).subscribe();
 
-        return () => {
-            supabase.removeChannel(channel);
-        }
-    }, [chatId, queryClient]);
+    //     return () => {
+    //         supabase.removeChannel(channel);
+    //     }
+    // }, [chatId, queryClient]);
 
 
 

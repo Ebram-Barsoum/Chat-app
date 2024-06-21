@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import EmojiPicker from "emoji-picker-react";
 import { FaImage } from "react-icons/fa";
@@ -10,15 +10,12 @@ import { MdOutlineEmojiEmotions } from "react-icons/md";
 import useOutsideClick from "../../hooks/useOutsideClick";
 import useSendMessage from "./useSendMessage";
 import useUpdateChat from "../chats/useUpdateChat.js";
-
 import { useUserInfo } from "../../contexts/userContext";
 
 import ButtonIcon from "../../ui/ButtonIcon";
 import Button from "../../ui/Button";
-import useUnseenMessages from "./useUnseenMessages.js";
-import { useQueryClient } from "@tanstack/react-query";
 
-export default function MessageForm({ chatId }) {
+export default function MessageForm() {
   const [openEmojis, setOpenEmojis] = useState(false);
   const [text, setText] = useState("");
   const [image, setImage] = useState(null);
@@ -48,7 +45,7 @@ export default function MessageForm({ chatId }) {
       image,
       content: text,
       chat_id: id,
-      sender_id: user.id,
+      sender_id: user?.user?.id,
     };
 
     sendMessage(message, {
@@ -99,16 +96,20 @@ export default function MessageForm({ chatId }) {
         <MdOutlineEmojiEmotions />
       </ButtonIcon>
 
-      <div className=" fixed top-32 right-10" ref={ref}>
+      <div className=" fixed top-32 right-5 w-[80%] sm:w-[18rem]" ref={ref}>
         <EmojiPicker
           open={openEmojis}
           onEmojiClick={handleEmojiClick}
           theme="dark"
-          width={300}
+          width={"100%"}
         />
       </div>
 
-      <Button isDisabled={!(text || image?.name)} name="sending message button">
+      <Button
+        isDisabled={!(text || image?.name)}
+        type={"submit"}
+        name="sending message button"
+      >
         <VscSend />
       </Button>
     </form>
