@@ -2,14 +2,18 @@
 import { supabaseUrl } from "../services/supabase";
 
 export function formatDate(date) {
-    const months = new Date().getMonth() - new Date(date).getMonth();
+    const inputDate = new Date(date), now = new Date();
+    const monthsDiff = now.getMonth() - inputDate.getMonth();
+    const yearsDiff = now.getFullYear() - inputDate.getFullYear();
 
-    if (months) return new Date(date).toLocaleDateString();
+    const displayFullDate = monthsDiff || yearsDiff;
 
-    const days = new Date().getDate() - new Date(date).getDate();
+    if (displayFullDate) return inputDate.toLocaleDateString();
+
+    const days = now.getDate() - inputDate.getDate();
 
     if (days === 0) {
-        return new Date(date).toLocaleTimeString([], {
+        return inputDate.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
         });
@@ -18,11 +22,13 @@ export function formatDate(date) {
         return 'Yesterday'
     }
 
-    return new Date(date).toLocaleDateString();
+    return inputDate.toLocaleDateString();
 }
 
 export function createImageUrl(bucket, image) {
-    const imageName = `${Math.random()}-${image?.name}`;
+    if (!bucket || !image) return null;
+
+    const imageName = `${Math.random()}-${image?.name?.replaceAll('/', '-')}`;
     const imageUrl = `${supabaseUrl}/storage/v1/object/public/${bucket}/${imageName}`;
 
     return { imageName, imageUrl };
