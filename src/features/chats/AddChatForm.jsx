@@ -6,6 +6,7 @@ import { getUserBy } from "../../services/apiUsers";
 import useAddChat from "../chats/useAddChat";
 import useUser from "../users/useUser";
 
+import FixedLayout from "../../ui/FixedLayout";
 import Button from "../../ui/Button";
 
 export default function AddChatForm({ onCancel }) {
@@ -26,7 +27,7 @@ export default function AddChatForm({ onCancel }) {
   };
 
   return (
-    <div className="w-[100dvw] h-[100dvh] fixed top-0  backdrop-blur-sm flex justify-center items-center">
+    <FixedLayout>
       <form
         onSubmit={handleFriendSearch}
         className="bg-gray-50 w-[90%] sm:w-[22rem] py-3 px-4 pt-5 rounded-md flex flex-col gap-3"
@@ -58,6 +59,6 @@ export default function AddChatForm({ onCancel }) {
           </Button>
         </div>
       </form>
-    </div>
+    </FixedLayout>
   );
 }
