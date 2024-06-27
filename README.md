@@ -20,4 +20,5 @@
 - React Query for handling server side state management and caching.
 - Tailwind css for styling the application.
 - Supabase for building the back-end.
+- jest framework for testing some methods.
 ```
