@@ -28,9 +28,8 @@ export default function UserInfoForm({ onCancel }) {
       bio: data.bio,
       avatar: newAvatar || avatar,
     };
-    console.log(newData);
 
-    updateUser({ id: user.id, newData });
+    updateUser({ id: user?.user?.id, newData });
   };
 
   return (
@@ -72,6 +71,7 @@ export default function UserInfoForm({ onCancel }) {
                 src={avatar || "/public/default-user.jpg"}
                 alt={`${name}'s profile picture`}
                 className="  m-auto  rounded-full hover:opacity-85 transition cursor-pointer"
+                title="Click to change your avatar"
               />
               {newAvatar && (
                 <span className="flex items-center gap-1 text-[13px] border-[1px] border-blue-300 p-1 rounded-md bg-blue-100 text-blue-700">
