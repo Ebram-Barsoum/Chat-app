@@ -22,7 +22,7 @@ export default function AddChatForm({ onCancel }) {
 
     createChat(
       { user1_id: user?.user?.id, user2_id: friend.id },
-      { onSuccess: onCancel }
+      { onSuccess: () => onCancel() }
     );
   };
 
